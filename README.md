@@ -1,0 +1,33 @@
+ip a
+L: sudo apt update
+sudo apt install nfs-kernal-server -y
+sudo mkdir -p /srv/nfs/Shivani
+sudo chown nobody:nogroup /srv/nfs/Shivani
+sudo chmod a777 /srv/nfs/Shivani
+
+sudo nano /etc/exports
+
+/srv/nfs/shivani <kali ip>(rw,sync,no_subtree_check,no_root_squash)
+
+sudo systemctl restart nfs-kernal-server
+sudo ufw allow from <kali ip> to any port nfs
+
+KALI
+sudo apt update
+sudo apt install nfs-common -y
+sudo mkdir -p /mnt/nfs/Shivani
+sudo mount <ubuntu ip>:/srv/nfs/shivani /mnt/nfs/shivani
+
+df -h | grep nfs
+ls -l /mnt/nfs/Shivani
+
+ubuntu
+echo "hello" | sudo tee /srv/nfs/Shivani/test.txt
+
+kali
+cat /mnt/nfs/Shivani/text.txt
+
+echo "hello" | sudo tee /mnt/nfs/Shivani/test1.txt
+
+ubuntu
+cat /srv/nfs/Shivani/test1.txt
